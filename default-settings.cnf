@@ -62,5 +62,3 @@ default-character-set = utf8mb4
 
 [mysqldump]
 max_allowed_packet=256M
-
-!includedir /etc/mysql/mariadb.conf.d/

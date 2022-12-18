@@ -20,8 +20,7 @@
 ## Software setup
 ### Create user
 - `ssh root@IP`
-- sudo useradd -m nbNext
-- sudo usermod -aG sudo nbNext
+- sudo useradd -m nbNext && sudo usermod -aG sudo nbNext
 - sudo visudo
     - nbNext ALL=(ALL) NOPASSWD: ALL
 
@@ -30,10 +29,8 @@
 
 ### Script based installation
 - sudo su nbNext
-- cd ~
-- wget https://raw.githubusercontent.com/devthenb/default-setup/automate-installation/setup_script.sh
-- chmod +x setup_script.sh
-- ./setup_script.sh
+- cd ~ && wget https://raw.githubusercontent.com/devthenb/default-setup/main/setup_script.sh && chmod +x setup_script.sh
+- ./setup_script.sh  `todo: also store the output`
 
 
 
@@ -61,7 +58,7 @@ LANG=en_US.UTF-8
     - exit
 
 #### test mariaDB for NBNext
-- mysql -unbNext -p`password` --host=localhost --protocol=tcp --port=3306
+- mysql -unbNext -pnbNext@1 --host=localhost --protocol=tcp --port=3306
 
 
 
