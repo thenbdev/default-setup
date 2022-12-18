@@ -1,0 +1,78 @@
+export PASSWORD = 
+
+export DEBIAN_FRONTEND=noninteractive  # To select default options whenever needed (service restart, option select)
+sudo export DEBIAN_FRONTEND=noninteractive  # Also using this over sudo
+
+
+# todo: Check for sudo permissions to the user before running the script
+# ## get UID 
+# uid=$(id -u)
+ 
+# ## Check for it
+# [ $uid -ne 0 ] && { echo "Only root may enable the nginx-chroot environment to the system."; exit 1; }
+
+
+
+# Installation may exceed Ubuntu's default file watch limit of 8192
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p 
+
+
+# Setup dependencies
+# Python already installed, install pip and upgrade stuff
+sudo apt -y install python3-pip
+python3 -m pip install --upgrade setuptools cryptography psutil
+sudo pip3 install --upgrade setuptools
+sudo pip3 install --upgrade pip
+sudo pip3 install --upgrade distlib
+sudo apt -y install python3.10-venv
+
+# Yarn
+curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+sudo apt-get -y install nodejs
+sudo npm install -g yarn
+
+# Other dependencies
+sudo apt install -y curl build-essential mariadb-client python3-setuptools python3-dev libffi-dev python3-pip libcurl4 fontconfig git htop libcrypto++-dev libfreetype6-dev liblcms2-dev libwebp-dev libxext6 libxrender1 libxslt1-dev libxslt1.1 libffi-dev ntpdate postfix python3-dev python-tk screen vim xfonts-75dpi xfonts-base zlib1g-dev apt-transport-https libsasl2-dev libldap2-dev libcups2-dev pv libjpeg8-dev libtiff5-dev tcl8.6-dev tk8.6-dev python3-mysqldb libdate-manip-perl logwatch
+# libssl dnsmasq
+
+# Setup Supervisor for managing services
+sudo apt-get -y install supervisor
+
+# Setup nginx for webserver management
+sudo apt -y install nginx
+
+
+# Setup Redis
+sudo apt -y install redis-server
+sudo systemctl enable redis-server
+
+
+# Create mariaDB 10.6
+sudo apt-get -y install apt-transport-https curl
+sudo curl -o /etc/apt/trusted.gpg.d/mariadb_release_signing_key.asc 'https://mariadb.org/mariadb_release_signing_key.asc'
+sudo sh -c "echo 'deb https://mirrors.aliyun.com/mariadb/repo/10.6/ubuntu jammy main' >>/etc/apt/sources.list"
+sudo apt -y install mariadb-server
+sudo apt -y install python3-mysqldb libmysqlclient-dev
+printf "\n y\n n\n y\n y\n y\n y\n" | sudo mysql_secure_installation
+
+
+# Setup mariaDB for NBNext
+sudo systemctl stop mariadb
+sudo wget -O /etc/mysql/conf.d/settings.cnf https://raw.githubusercontent.com/devthenb/default-setup/main/default-settings.cnf
+sudo wget -O /etc/mysql/mariadb.conf.d/nbnext.cnf https://raw.githubusercontent.com/devthenb/default-setup/main/default-nbNext.cnf
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+
+
+# Setup Frappe Bench CLI
+git clone https://github.com/devthenb/bench ~/.bench --depth 1 --branch develop
+sudo pip3 install -e ~/.bench  # Install bench CLI
+bench init ~/frappe-bench --frappe-path https://github.com/devthenb/frappe --frappe-branch version-14 --python python3
+
+
+# Setup NBNext
+cd ~/frappe-bench
+bench get-app erpnext https://github.com/devthenb/nbnext --branch version-14
+
+
+sudo bench setup production nbNext --yes  # Set the prod flag on
