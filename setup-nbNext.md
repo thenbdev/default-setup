@@ -28,9 +28,10 @@
 
 
 ### Script based installation
-- sudo su nbNext
-- cd ~ && wget https://raw.githubusercontent.com/devthenb/default-setup/main/setup_script.sh && chmod +x setup_script.sh
+- sudo su - nbNext
+- wget https://raw.githubusercontent.com/devthenb/default-setup/main/setup_script.sh && chmod +x setup_script.sh
 - ./setup_script.sh  `todo: also store the output`
+
 
 
 
@@ -49,6 +50,7 @@ LANG=en_US.UTF-8
     - When asked about changing the MariaDB root password, answer N. Using the default password along with Unix authentication is the recommended setup for Ubuntu-based systems because the root account is closely related to automated system maintenance tasks.
     - The remaining questions have to do with removing the anonymous database user, restricting the root account to log in remotely on localhost, removing the test database, and reloading privilege tables. It is safe to answer Y to all those questions.
  -->
+- Change default charset, remove the already stored value in 50-server.cnf in /etc/mysql/mariadb.conf.d
 - sudo mysql
     - CREATE DATABASE nbNext;
     - SHOW DATABASES;
@@ -58,7 +60,7 @@ LANG=en_US.UTF-8
     - exit
 
 #### test mariaDB for NBNext
-- mysql -unbNext -pnbNext@1 --host=localhost --protocol=tcp --port=3306
+- mysql -unbNext -p`password` --host=localhost --protocol=tcp --port=3306
 
 
 
@@ -73,8 +75,8 @@ LANG=en_US.UTF-8
 
 ## Install NBNext
 <!-- - cd ~/frappe-bench -->
-- bench new-site --admin-password `erpnext_admin_password` --mariadb-root-username nbNext --mariadb-root-password `mariadb_password` `domain`
-- bench --site `your_domain` install-app erpnext
+- bench new-site --admin-password erpnext_admin_password --mariadb-root-username nbNext --mariadb-root-password `mariadb_password` `domain`
+- bench --site `domain` install-app erpnext
 - bench start
 
 
@@ -85,14 +87,18 @@ LANG=en_US.UTF-8
 - Supervisor this service ensures that NBNext key processes are constantly up and running, restarting them as necessary.
 ```
 - cd /home/nbNext/frappe-bench
+- bench --site `domain` enable-scheduler
+- bench --site `domain` set-maintenance-mode off
 - sudo bench setup production nbNext --yes
+- bench setup nginx
+
 ```
 The configuration files created by the bench command are:
     - Two Nginx configuration files located at /etc/nginx/nginx.conf and /etc/nginx/conf.d/frappe-bench.conf
     - One Fail2Ban proxy jail located at /etc/fail2ban/jail.d/nginx-proxy.conf and one filter located at /etc/fail2ban/filter.d/nginx-proxy.conf
 ```
-- sudo supervisorctl stop all
-- sudo supervisorctl start all
+- sudo supervisorctl restart all
+- sudo bench setup production nbNext --yes
 
 
 ### Test NBNext 12 Installation

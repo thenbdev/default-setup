@@ -1,7 +1,5 @@
 # export PASSWORD = 
 
-export DEBIAN_FRONTEND=noninteractive  # To select default options whenever needed (service restart, option select)
-
 
 # todo: Check for sudo permissions to the user before running the script
 # ## get UID 
@@ -58,6 +56,7 @@ printf "\n y\n n\n y\n y\n y\n y\n" | sudo mysql_secure_installation
 # Setup mariaDB for NBNext
 sudo systemctl stop mariadb
 sudo wget -O /etc/mysql/conf.d/settings.cnf https://raw.githubusercontent.com/devthenb/default-setup/main/default-settings.cnf
+# todo: remove utf8mb4_general_ci from 50-server.cnf
 # sudo wget -O /etc/mysql/mariadb.conf.d/nbnext.cnf https://raw.githubusercontent.com/devthenb/default-setup/main/default-nbnext.cnf
 sudo systemctl start mariadb
 sudo systemctl enable mariadb
@@ -71,7 +70,5 @@ bench init ~/frappe-bench --frappe-path https://github.com/devthenb/frappe --fra
 
 # Setup NBNext
 cd ~/frappe-bench
+chmod -R o+rx ~
 bench get-app erpnext https://github.com/devthenb/nbnext --branch version-14
-
-
-sudo bench setup production nbNext --yes  # Set the prod flag on
