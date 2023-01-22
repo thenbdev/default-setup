@@ -75,7 +75,7 @@ LANG=en_US.UTF-8
 
 ## Install NBNext
 <!-- - cd ~/frappe-bench -->
-- bench new-site --admin-password erpnext_admin_password --mariadb-root-username nbNext --mariadb-root-password `mariadb_password` `domain`
+- bench new-site --admin-password `erpnext_admin_password` --mariadb-root-username nbNext --mariadb-root-password `mariadb_password` `domain`
 - bench --site `domain` install-app erpnext
 - bench start
 
@@ -109,3 +109,4 @@ The configuration files created by the bench command are:
 
 ## Notes and mentions
 - https://www.digitalocean.com/community/tutorials/how-to-install-an-erpnext-stack-on-ubuntu-20-04
+- https://codewithkarani.com/2022/08/18/install-erpnext-version-14/

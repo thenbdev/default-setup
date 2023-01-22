@@ -37,7 +37,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get -y install supervisor
 
 # Setup nginx for webserver management
 sudo DEBIAN_FRONTEND=noninteractive apt -y install nginx
-
+sudo systemctl enable nginx
 
 # Setup Redis
 sudo DEBIAN_FRONTEND=noninteractive apt -y install redis-server
@@ -65,10 +65,13 @@ sudo systemctl enable mariadb
 # Setup Frappe Bench CLI
 git clone https://github.com/devthenb/bench ~/.bench --depth 1 --branch develop
 sudo pip3 install -e ~/.bench  # Install bench CLI
-bench init ~/frappe-bench --frappe-path https://github.com/devthenb/frappe --frappe-branch version-14 --python python3
+bench init ~/frappe-bench --frappe-path https://github.com/devthenb/frappe --frappe-branch develop --python python3
 
 
 # Setup NBNext
 cd ~/frappe-bench
 chmod -R o+rx ~
-bench get-app erpnext https://github.com/devthenb/nbnext --branch version-14
+bench get-app payments https://github.com/devthenb/payments --branch develop
+bench get-app erpnext https://github.com/devthenb/nbnext --branch develop
+bench get-app hrms https://github.com/devthenb/hrms --branch develop
+
