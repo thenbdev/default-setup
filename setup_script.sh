@@ -62,6 +62,10 @@ sudo systemctl start mariadb
 sudo systemctl enable mariadb
 
 
+# Setup wkhtmltopdf for NBNext
+sudo apt-get install xvfb libfontconfig wkhtmltopdf
+
+
 # Setup Frappe Bench CLI
 git clone https://github.com/devthenb/bench ~/.bench --depth 1 --branch develop
 sudo pip3 install -e ~/.bench  # Install bench CLI
