@@ -78,7 +78,6 @@ bench init ~/frappe-bench --frappe-path https://github.com/devthenb/frappe --fra
 # Setup NBNext
 cd ~/frappe-bench
 chmod -R o+rx ~
-bench get-app payments https://github.com/devthenb/payments --branch develop
-bench get-app erpnext https://github.com/devthenb/nbnext --branch develop
-bench get-app hrms https://github.com/devthenb/hrms --branch develop
-
+bench get-app payments https://github.com/devthenb/payments --branch develop-updated
+bench get-app erpnext https://github.com/devthenb/nbnext --branch develop-updated
+bench get-app hrms https://github.com/devthenb/hrms --branch develop-updated
