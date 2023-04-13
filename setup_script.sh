@@ -16,11 +16,12 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
 
 # Setup dependencies
 # Python already installed, install pip and upgrade stuff
+sudo apt-get update
 sudo DEBIAN_FRONTEND=noninteractive apt -y install python3-pip
 python3 -m pip install --upgrade setuptools cryptography psutil
-sudo pip3 install --upgrade setuptools
-sudo pip3 install --upgrade pip
-sudo pip3 install --upgrade distlib
+pip3 install --upgrade setuptools
+pip3 install --upgrade pip
+pip3 install --upgrade distlib
 sudo DEBIAN_FRONTEND=noninteractive apt -y install python3.10-venv
 
 # Yarn
@@ -50,6 +51,8 @@ sudo curl -o /etc/apt/trusted.gpg.d/mariadb_release_signing_key.asc 'https://mar
 sudo sh -c "echo 'deb https://mirrors.aliyun.com/mariadb/repo/10.6/ubuntu jammy main' >>/etc/apt/sources.list"
 sudo DEBIAN_FRONTEND=noninteractive apt -y install mariadb-server
 sudo DEBIAN_FRONTEND=noninteractive apt -y install python3-mysqldb libmysqlclient-dev
+
+
 printf "\n y\n n\n y\n y\n y\n y\n" | sudo mysql_secure_installation
 
 
