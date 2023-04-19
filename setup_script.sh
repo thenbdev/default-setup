@@ -58,9 +58,9 @@ printf "\n y\n n\n y\n y\n y\n y\n" | sudo mysql_secure_installation
 
 # Setup mariaDB for NBNext
 sudo systemctl stop mariadb
-sudo wget -O /etc/mysql/conf.d/settings.cnf https://raw.githubusercontent.com/devthenb/default-setup/main/default-settings.cnf
+sudo wget -O /etc/mysql/conf.d/settings.cnf https://raw.githubusercontent.com/thenbdev/default-setup/main/default-settings.cnf
 # todo: remove utf8mb4_general_ci from 50-server.cnf
-# sudo wget -O /etc/mysql/mariadb.conf.d/nbnext.cnf https://raw.githubusercontent.com/devthenb/default-setup/main/default-nbnext.cnf
+# sudo wget -O /etc/mysql/mariadb.conf.d/nbnext.cnf https://raw.githubusercontent.com/thenbdev/default-setup/main/default-nbnext.cnf
 sudo systemctl start mariadb
 sudo systemctl enable mariadb
 
@@ -70,14 +70,15 @@ sudo apt-get install xvfb libfontconfig wkhtmltopdf
 
 
 # Setup Frappe Bench CLI
-git clone https://github.com/devthenb/bench ~/.bench --depth 1 --branch develop
+git clone https://github.com/thenbdev/bench ~/.bench --depth 1 --branch develop-updated
+sudo pip3 uninstall frappe-bench -y
 sudo pip3 install -e ~/.bench  # Install bench CLI
-bench init ~/frappe-bench --frappe-path https://github.com/devthenb/frappe --frappe-branch develop --python python3
+bench init ~/thenb-bench --frappe-path https://github.com/thenbdev/frappe --frappe-branch develop-updated --python python3
 
 
 # Setup NBNext
 cd ~/frappe-bench
 chmod -R o+rx ~
-bench get-app payments https://github.com/devthenb/payments --branch develop-updated
-bench get-app erpnext https://github.com/devthenb/nbnext --branch develop-updated
-bench get-app hrms https://github.com/devthenb/hrms --branch develop-updated
+bench get-app payments https://github.com/thenbdev/payments --branch develop-updated
+bench get-app erpnext https://github.com/thenbdev/nbnext --branch develop-updated
+bench get-app hrms https://github.com/thenbdev/hrms --branch develop-updated
