@@ -66,7 +66,32 @@ sudo systemctl enable mariadb
 
 
 # Setup wkhtmltopdf for NBNext
-sudo apt-get install xvfb libfontconfig wkhtmltopdf
+sudo apt-get install xvfb libfontconfig 
+sudo apt-get install wkhtmltopdf
+
+# Download the appropriate package based on Ubuntu version
+# if [[ "$(lsb_release -rs)" == "22.04" ]]; then
+#   package_url="https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb"
+# elif [[ "$(lsb_release -rs)" == "20.04" ]]; then
+#   package_url="https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb"
+# elif [[ "$(lsb_release -rs)" == "18.04" ]]; then
+#   package_url="https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb"
+# else
+#   echo "Unsupported Ubuntu version"
+# fi
+
+
+# # Download the package
+# wget "$package_url"
+# chmod +r wkhtmltox*.deb
+
+# # Install the package and its dependencies
+# sudo apt-get update
+# sudo apt-get install -y ./wkhtmltox*.deb
+
+
+# sudo apt install ttf-mscorefonts-installer
+# sudo fc-cache -f -v
 
 
 # Setup Frappe Bench CLI
@@ -77,8 +102,10 @@ bench init ~/thenb-bench --frappe-path https://github.com/thenbdev/frappe --frap
 
 
 # Setup NBNext
-cd ~/frappe-bench
+cd ~/thenb-bench
 chmod -R o+rx ~
 bench get-app payments https://github.com/thenbdev/payments --branch develop-updated
 bench get-app erpnext https://github.com/thenbdev/nbnext --branch develop-updated
 bench get-app hrms https://github.com/thenbdev/hrms --branch develop-updated
+bench get-app freight_management https://github.com/thenbdev/freight_management --branch develop-updated
+bench get-app theNB_customization https://github.com/thenbdev/theNB_customization --branch main
