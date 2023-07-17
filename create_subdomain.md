@@ -14,5 +14,6 @@ bench --site `subdomain` set-maintenance-mode off
 `Now you can set shared keys like encrypytion keys (Not recommended) or restore any previous DB.`
 cat sites/`old_example_subdomain`/site_config.json | grep db_name | awk -F'"' '{print $4}'
 
+cat sites/fresh/site_config.json | grep db_name | awk -F'"' '{print $4}'
 
 sudo supervisorctl restart all
