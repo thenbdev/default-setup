@@ -25,7 +25,7 @@ pip3 install --upgrade distlib
 sudo DEBIAN_FRONTEND=noninteractive apt -y install python3.10-venv
 
 # Yarn
-curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y install nodejs
 sudo npm install -g yarn
 
@@ -66,8 +66,7 @@ sudo systemctl enable mariadb
 
 
 # Setup wkhtmltopdf for NBNext
-sudo apt-get install xvfb libfontconfig 
-sudo apt-get install wkhtmltopdf
+sudo DEBIAN_FRONTEND=noninteractive apt -y install xvfb libfontconfig wkhtmltopdf
 
 # Download the appropriate package based on Ubuntu version
 # if [[ "$(lsb_release -rs)" == "22.04" ]]; then
