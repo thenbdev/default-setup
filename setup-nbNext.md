@@ -50,26 +50,26 @@ LANG=en_US.UTF-8
     - When asked about changing the MariaDB root password, answer N. Using the default password along with Unix authentication is the recommended setup for Ubuntu-based systems because the root account is closely related to automated system maintenance tasks.
     - The remaining questions have to do with removing the anonymous database user, restricting the root account to log in remotely on localhost, removing the test database, and reloading privilege tables. It is safe to answer Y to all those questions.
  -->
-- Change default charset, remove the already stored value in 50-server.cnf in /etc/mysql/mariadb.conf.d
 - sudo mysql
-    - CREATE DATABASE nbNext;
-    - SHOW DATABASES;
-    - GRANT ALL PRIVILEGES ON *.* TO 'nbNext'@'%' IDENTIFIED BY '`password`' WITH GRANT OPTION;
-    - SELECT host, user, Super_priv FROM mysql.user; `Will show new user nbNext over %, super_user Y`
-    - FLUSH PRIVILEGES;
-    - exit
+- CREATE DATABASE nbNext;
+- CREATE USER 'nbNext'@'%' IDENTIFIED BY '`password`';
+- SHOW DATABASES;
+- GRANT ALL PRIVILEGES ON *.* TO 'nbNext'@'%' IDENTIFIED BY '`password`' WITH GRANT OPTION;
+- SELECT host, user, Super_priv FROM mysql.user; `Will show new user nbNext over %, super_user Y`
+- FLUSH PRIVILEGES;
+- exit
 
 #### test mariaDB for NBNext
 - mysql -unbNext -p`password` --host=localhost --protocol=tcp --port=3306
 
 
 
-#### Dependencies
+<!-- #### Dependencies -->
 <!-- wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb -->
 <!-- sudo dpkg -i wkhtmltox_0.12.5-1.bionic_amd64.deb -->
-- Install wkhtmltopdf `convert HTML content into PDF using the Qt WebKit rendering engine`
+<!-- - Install wkhtmltopdf `convert HTML content into PDF using the Qt WebKit rendering engine`
     - sudo cp /usr/local/bin/wkhtmlto* /usr/bin/ `copy all relevant executables to your /usr/bin/`
-    - sudo chmod a+x /usr/bin/wk*
+    - sudo chmod a+x /usr/bin/wk* -->
 
 
 
