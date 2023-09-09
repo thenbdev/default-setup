@@ -1,3 +1,4 @@
+#!/bin/bash
 # export PASSWORD = 
 
 
@@ -58,8 +59,9 @@ printf "\n y\n n\n y\n y\n y\n y\n" | sudo mysql_secure_installation
 
 # Setup mariaDB for NBNext
 sudo systemctl stop mariadb
+# Comment out the line with "collation-server". remove utf8mb4_general_ci from 50-server.cnf
+sudo sed -i '/collation-server/ s/^/#/' "/etc/mysql/mariadb.conf.d/50-server.cnf"
 sudo wget -O /etc/mysql/conf.d/settings.cnf https://raw.githubusercontent.com/thenbdev/default-setup/main/default-settings.cnf
-# todo: remove utf8mb4_general_ci from 50-server.cnf
 # sudo wget -O /etc/mysql/mariadb.conf.d/nbnext.cnf https://raw.githubusercontent.com/thenbdev/default-setup/main/default-nbnext.cnf
 sudo systemctl start mariadb
 sudo systemctl enable mariadb
@@ -107,4 +109,5 @@ bench get-app payments https://github.com/thenbdev/payments --branch develop-upd
 bench get-app erpnext https://github.com/thenbdev/nbnext --branch develop-updated
 bench get-app hrms https://github.com/thenbdev/hrms --branch develop-updated
 bench get-app freight_management https://github.com/thenbdev/freight_management --branch develop-updated
-bench get-app theNB_customization https://github.com/thenbdev/theNB_customization --branch main
+bench get-app theNB_customization https://github.com/thenbdev/theNB_customization --branch develop
+bench get-app quotation_comparison https://github.com/efeone/quotation_comparison.git --branch develop
