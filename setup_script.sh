@@ -104,10 +104,13 @@ bench init ~/thenb-bench --frappe-path https://github.com/thenbdev/frappe --frap
 
 # Setup NBNext
 cd ~/thenb-bench
+# Own all files in the bench folder by current user
+sudo chown -R $USER:$USER /home/$USER
 chmod -R o+rx ~
 bench get-app payments https://github.com/thenbdev/payments --branch develop-updated
 bench get-app erpnext https://github.com/thenbdev/nbnext --branch develop-updated
 bench get-app hrms https://github.com/thenbdev/hrms --branch develop-updated
-bench get-app freight_management https://github.com/thenbdev/freight_management --branch develop-updated
-bench get-app theNB_customization https://github.com/thenbdev/theNB_customization --branch develop
+# bench get-app freight_management https://github.com/thenbdev/freight_management --branch develop-updated
+bench get-app thenb_customization https://github.com/thenbdev/thenb_customization --branch develop
 bench get-app quotation_comparison https://github.com/efeone/quotation_comparison.git --branch develop
+bench get-app healthcare
