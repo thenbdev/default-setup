@@ -5,4 +5,4 @@
 - [x] Error Log
 - [x] Email Queue
 - [ ] Complete audit trail of the document (created, last modified)
-- 
+- [ ] Activity Log

@@ -114,3 +114,6 @@ bench get-app hrms https://github.com/thenbdev/hrms --branch develop-updated
 bench get-app thenb_customization https://github.com/thenbdev/thenb_customization --branch develop
 bench get-app quotation_comparison https://github.com/efeone/quotation_comparison.git --branch develop
 bench get-app healthcare
+
+
+sudo snap install --classic certbot

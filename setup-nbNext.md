@@ -30,7 +30,7 @@
 ### Script based installation
 - sudo su - nbNext
 - wget https://raw.githubusercontent.com/devthenb/default-setup/main/setup_script.sh && chmod +x setup_script.sh
-- ./setup_script.sh  `todo: also store the output`
+- ./setup_script.sh   `todo: also store the output`
 
 
 
@@ -51,16 +51,22 @@ LANG=en_US.UTF-8
     - The remaining questions have to do with removing the anonymous database user, restricting the root account to log in remotely on localhost, removing the test database, and reloading privilege tables. It is safe to answer Y to all those questions.
  -->
 - sudo mysql
-- CREATE DATABASE nbNext;
-- CREATE USER 'nbNext'@'%' IDENTIFIED BY '`password`';
-- SHOW DATABASES;
-- GRANT ALL PRIVILEGES ON *.* TO 'nbNext'@'%' IDENTIFIED BY '`password`' WITH GRANT OPTION;
-- SELECT host, user, Super_priv FROM mysql.user; `Will show new user nbNext over %, super_user Y`
-- FLUSH PRIVILEGES;
-- exit
+"""
+CREATE DATABASE nbNext;
+-- DROP USER 'nbNext';
+CREATE USER 'nbNext'@'%' IDENTIFIED BY '`password`';
+-- CREATE USER 'nbNext'@'localhost' IDENTIFIED BY '`password`';
+SHOW DATABASES;
+GRANT ALL PRIVILEGES ON *.* TO 'nbNext'@'%' IDENTIFIED BY '`password`' WITH GRANT OPTION;
+-- GRANT ALL PRIVILEGES ON *.* TO 'nbNext'@'localhost' IDENTIFIED BY '`password`' WITH GRANT OPTION;
+
+SELECT user, host, Super_priv FROM mysql.user;  -- `Will show new user nbNext over %, super_user Y`
+FLUSH PRIVILEGES;
+exit
+"""
 
 #### test mariaDB for NBNext
-- mysql -unbNext -p`password` --host=localhost --protocol=tcp --port=3306
+- mysql -unbNext --host=localhost --protocol=tcp --port=3306 -p`password`
 
 
 
@@ -74,9 +80,11 @@ LANG=en_US.UTF-8
 
 
 ## Install NBNext
-<!-- - cd ~/frappe-bench -->
+- cd ~/thenb-bench
 - bench new-site --admin-password `erpnext_admin_password` --mariadb-root-username nbNext --mariadb-root-password `mariadb_password` `domain`
 - bench --site `domain` install-app erpnext
+sudo chown -R $USER:$USER /home/$USER
+chmod -R o+rx ~
 - bench start
 
 
@@ -86,20 +94,17 @@ LANG=en_US.UTF-8
 - Nginx will be mainly used as a web proxy, redirecting all traffic from port 8000 to port 80 (HTTP) or port 443 (HTTPS)
 - Supervisor this service ensures that NBNext key processes are constantly up and running, restarting them as necessary.
 ```
-- cd /home/nbNext/frappe-bench
+- cd /home/nbNext/thenb-bench
 - bench --site `domain` enable-scheduler
 - bench --site `domain` set-maintenance-mode off
-- sudo bench setup production nbNext --yes
-- bench setup nginx
 
 ```
 The configuration files created by the bench command are:
     - Two Nginx configuration files located at /etc/nginx/nginx.conf and /etc/nginx/conf.d/frappe-bench.conf
     - One Fail2Ban proxy jail located at /etc/fail2ban/jail.d/nginx-proxy.conf and one filter located at /etc/fail2ban/filter.d/nginx-proxy.conf
 ```
+- sudo bench setup production $USER --yes
 - sudo supervisorctl restart all
-- sudo bench setup production nbNext --yes
-
 
 ### Test NBNext 12 Installation
 - systemctl list-unit-files | grep 'fail2ban\|nginx\|supervisor'

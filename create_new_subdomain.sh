@@ -1,6 +1,6 @@
 cd frappe-bench
 bench drop-site $1 --mariadb-root-username nbNext --mariadb-root-password $2
-bench new-site --admin-password 3125 --mariadb-root-username nbNext --mariadb-root-password $2 $1
+bench new-site --admin-password `erpnext_admin_password` --mariadb-root-username nbNext --mariadb-root-password $2 $1
 bench --site $1 install-app payments
 bench --site $1 install-app erpnext
 bench --site $1 migrate
