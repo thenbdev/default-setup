@@ -96,24 +96,24 @@ sudo DEBIAN_FRONTEND=noninteractive apt -y install xvfb libfontconfig wkhtmltopd
 
 
 # Setup Frappe Bench CLI
-git clone https://github.com/thenbdev/bench ~/.bench --depth 1 --branch develop-updated
+git clone https://github.com/thenbdev/bench .bench --depth 1 --branch develop
 sudo pip3 uninstall frappe-bench -y
-sudo pip3 install -e ~/.bench  # Install bench CLI
-bench init ~/thenb-bench --frappe-path https://github.com/thenbdev/frappe --frappe-branch develop-updated --python python3
+pip3 install -e .bench  # Install bench CLI
+bench init --skip-redis-config-generation thenb-bench --frappe-path https://github.com/thenbdev/frappe --frappe-branch develop --python python3
 
 
 # Setup NBNext
-cd ~/thenb-bench
+cd thenb-bench
 # Own all files in the bench folder by current user
 sudo chown -R $USER:$USER /home/$USER
-chmod -R o+rx ~
-bench get-app payments https://github.com/thenbdev/payments --branch develop-updated
-bench get-app erpnext https://github.com/thenbdev/nbnext --branch develop-updated
-bench get-app hrms https://github.com/thenbdev/hrms --branch develop-updated
+chmod -R o+rx .
+bench get-app payments https://github.com/thenbdev/payments --branch develop --resolve-deps
+bench get-app erpnext https://github.com/thenbdev/erpnext --branch develop --resolve-deps
+bench get-app hrms https://github.com/thenbdev/hrms --branch develop
 # bench get-app freight_management https://github.com/thenbdev/freight_management --branch develop-updated
-bench get-app thenb_customization https://github.com/thenbdev/thenb_customization --branch develop
+# bench get-app thenb_customization https://github.com/thenbdev/thenb_customization --branch develop
 bench get-app quotation_comparison https://github.com/efeone/quotation_comparison.git --branch develop
-bench get-app healthcare
+bench get-app healthcare --resolve-deps
 
 
 sudo snap install --classic certbot

@@ -80,11 +80,11 @@ exit
 
 
 ## Install NBNext
-- cd ~/thenb-bench
+- cd thenb-bench
 - bench new-site --admin-password `erpnext_admin_password` --mariadb-root-username nbNext --mariadb-root-password `mariadb_password` `domain`
 - bench --site `domain` install-app erpnext
 sudo chown -R $USER:$USER /home/$USER
-chmod -R o+rx ~
+chmod -R o+rx .
 - bench start
 
 
